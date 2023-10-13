@@ -111,6 +111,7 @@
           <div class="row q-mt-sm q-mb-md">
             <q-btn
               class="q-pr-sm"
+              :ripple="false"
               unelevated
               :style="`
                 background-color: ${store.colourSelected};
@@ -152,6 +153,62 @@
               </q-tooltip>
             </q-btn>
           </div>
+          <!-- --- -->
+          <div class="row q-mt-sm q-mt-md">
+            <q-btn
+              unelevated
+              icon="history"
+              @click="showAllSavedColours = true"
+              :style="`
+                background-color: rgb(46, 46, 46);
+                color: white;
+                text-transform: capitalize;
+               `"
+            >
+              <q-tooltip> Open all saved colours. </q-tooltip>
+            </q-btn>
+          </div>
+          <!-- Dialog -->
+          <q-dialog v-model="showAllSavedColours">
+            <q-card class="q-pb-md q-px-md bg-black">
+              <div class="row items-center justify-around q-pt-sm">
+                <span class="text-white">Saved Colours</span>
+                <q-space />
+                <q-btn
+                  class="text-white"
+                  icon="close"
+                  dense
+                  unelevated
+                  @click="showAllSavedColours = false"
+                ></q-btn>
+              </div>
+              <!-- colors in dialog -->
+              <div
+                class="row q-mt-sm justify-center q-mx-xl"
+                v-for="(colour, i) in savedColours.slice().reverse()"
+                :key="i"
+              >
+                <q-btn
+                  class="q-pr-sm"
+                  unelevated
+                  v-close-popup
+                  @click="store.colourSelected = colour.colour"
+                  :label="colour.name || colour.colour"
+                  :style="`
+                background-color: ${colour.colour};
+                color: white;
+                text-shadow: 0px 0px 4px black;
+                text-transform: capitalize;
+                width: 30vw;
+                min-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border: 1px solid white`"
+                >
+                </q-btn>
+              </div>
+            </q-card>
+          </q-dialog>
         </div>
       </div>
     </q-page>
@@ -164,6 +221,22 @@
 }
 .titlebar {
   -webkit-app-region: drag;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #828282;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #424242;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #bcbcbc;
 }
 </style>
 
@@ -180,6 +253,7 @@ export default defineComponent({
       store: useColourPicked(),
       appSizeMaximised: false,
       savedColours: [],
+      showAllSavedColours: true,
       $q: useQuasar(),
     };
   },
@@ -187,7 +261,6 @@ export default defineComponent({
     getSavedColours() {
       this.savedColours =
         this.$q.localStorage.getItem("savedColoursSelected") || [];
-      return this.$q.localStorage.getItem("savedColoursSelected") || [];
     },
     saveColourSelectedToList(colour) {
       let currSaved =
@@ -254,7 +327,7 @@ export default defineComponent({
     this.isAppMaximised();
     this.getSavedColours();
     window.addEventListener("keydown", (e) => {
-      window._abortController?.abort();
+      window._abortController?.abort("picker closed");
     });
     // window.addEventListener("mov", (e) => {
     //   console.log(e.screenY);

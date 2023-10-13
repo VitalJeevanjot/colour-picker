@@ -58,8 +58,10 @@ async function getStreams(event) {
 function manageEyeDropper(event, val) {
   if (val == true) {
     mainWindow.setFullScreen(true);
+    mainWindow.setAlwaysOnTop(true);
   } else {
     mainWindow.setFullScreen(false);
+    mainWindow.setAlwaysOnTop(false);
   }
 }
 
