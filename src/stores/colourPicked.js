@@ -2,19 +2,19 @@ import { defineStore } from "pinia";
 
 export const useColourPicked = defineStore("counter", {
   state: () => ({
-    colourSelected: "#FFA500",
+    colourSelected: "#fffefd",
   }),
 
   getters: {
     getColour(state) {
-      return state.colour;
+      return state.colourSelected;
     },
   },
 
   actions: {
     newColour(colour) {
-      console.log("Calling it");
-      this.colour = colour;
+      // console.log("Calling it");
+      this.colourSelected = colour;
     },
   },
 });

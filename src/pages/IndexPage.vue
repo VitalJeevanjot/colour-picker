@@ -135,10 +135,11 @@ export default defineComponent({
   },
   methods: {
     openEyedropper() {
-      const eyeDropper = new EyeDropper();
+      window._eyeDropper = new EyeDropper();
+      window._abortController = new AbortController();
 
-      eyeDropper
-        .open()
+      window._eyeDropper
+        .open({ signal: window._abortController.signal })
         .then((result) => {
           this.store.newColour(result.sRGBHex);
           window.electronAPI.manageColourPickerViewer(false);
@@ -170,6 +171,9 @@ export default defineComponent({
   },
   async mounted() {
     this.isAppMaximised();
+    window.addEventListener("keydown", (e) => {
+      window._abortController.abort();
+    });
   },
 });
 </script>

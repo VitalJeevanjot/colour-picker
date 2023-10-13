@@ -91,12 +91,12 @@ async function getStreams(event) {
 function manageEyeDropper(event, val) {
   if (val == true) {
     mainWindow.setFullScreen(true);
-    mainWindow.setAlwaysOnTop(true);
+    // mainWindow.setAlwaysOnTop(true);
     // mainWindow.hide();
     // coloursPointerViewer.show();
   } else {
     mainWindow.setFullScreen(false);
-    mainWindow.setAlwaysOnTop(false);
+    // mainWindow.setAlwaysOnTop(false);
     // coloursPointerViewer.hide();
     // mainWindow.show();
   }
