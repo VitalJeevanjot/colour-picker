@@ -1,52 +1,7 @@
 <template>
   <div v-if="!inEyedropperMode">
     <q-page class="overflow" style="background-color: rgb(24, 24, 24)">
-      <div
-        id="toolbar"
-        class="row q-pa-none"
-        style="background-color: rgb(46, 46, 46)"
-      >
-        <q-avatar
-          class="text-white self-center q-ml-sm titlebar"
-          icon="colorize"
-          size="sm"
-        />
-        <!-- Todo above avatar: change to original icon -->
-        <span class="text-white q-my-xs q-ml-xs titlebar">Colour Picker</span>
-        <q-space />
-        <q-btn
-          class="text-white q-my-xs"
-          unelevated
-          dense
-          size="sm"
-          style="background-color: rgb(54, 54, 54)"
-          icon="remove"
-          @click="changeAppState('minimise')"
-          ><q-tooltip>Minimise</q-tooltip></q-btn
-        >
-        <q-btn
-          class="text-white q-my-xs q-ml-xs"
-          unelevated
-          dense
-          size="sm"
-          style="background-color: rgb(54, 54, 54)"
-          :icon="`${appSizeMaximised ? 'crop_7_5' : 'crop_square'}`"
-          @click="changeAppState('maximise')"
-        >
-          <q-tooltip v-if="appSizeMaximised">Minimise</q-tooltip>
-          <q-tooltip v-if="!appSizeMaximised">Maximise</q-tooltip>
-        </q-btn>
-        <q-btn
-          class="text-white q-my-xs q-ml-xs q-mr-xs"
-          unelevated
-          dense
-          size="sm"
-          style="background-color: rgb(54, 54, 54)"
-          icon="close"
-          @click="changeAppState('exit')"
-          ><q-tooltip>Exit</q-tooltip></q-btn
-        >
-      </div>
+      <TitleBar />
       <!-- --------------------------------  -->
       <div class="row justify-center q-pa-sm">
         <div class="col-auto">
@@ -172,7 +127,9 @@
           <q-dialog v-model="showAllSavedColours">
             <q-card class="q-pb-md q-px-md bg-black">
               <div class="row items-center justify-around q-pt-sm">
-                <span class="text-white">Saved Colours</span>
+                <span class="text-white" style="user-select: none"
+                  >Saved Colours ({{ savedColours.length }})</span
+                >
                 <q-space />
                 <q-btn
                   class="text-white"
@@ -182,19 +139,30 @@
                   @click="showAllSavedColours = false"
                 ></q-btn>
               </div>
-              <!-- colors in dialog -->
+              <div class="row items-center justify-around q-mb-md q-mt-md">
+                <q-input
+                  dark
+                  label="Filter"
+                  class="text-white"
+                  outlined
+                  dense
+                  v-model="coloursFilterText"
+                  color="grey-1"
+                ></q-input>
+              </div>
+              <!-- colours in dialog -->
               <div
-                class="row q-mt-sm justify-center q-mx-xl"
                 v-for="(colour, i) in savedColours.slice().reverse()"
                 :key="i"
               >
-                <q-btn
-                  class="q-pr-sm"
-                  unelevated
-                  v-close-popup
-                  @click="store.colourSelected = colour.colour"
-                  :label="colour.name || colour.colour"
-                  :style="`
+                <div class="row q-mt-sm justify-center q-mx-xl">
+                  <q-btn
+                    class="q-pr-sm"
+                    unelevated
+                    v-close-popup
+                    @click="store.colourSelected = colour.colour"
+                    :label="colour.name || colour.colour"
+                    :style="`
                 background-color: ${colour.colour};
                 color: white;
                 text-shadow: 0px 0px 4px black;
@@ -204,8 +172,45 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 border: 1px solid white`"
-                >
-                </q-btn>
+                  >
+                  </q-btn>
+                </div>
+
+                <div class="row justify-center q-mx-xl">
+                  <q-btn
+                    style="
+                      min-height: 0px;
+                      width: 10vw;
+                      min-width: 40px;
+                      height: 4px;
+                      border-radius: 0px 0px 2px 2px;
+                      padding: 0;
+                      margin: 0;
+                      background-color: rgb(255, 0, 0);
+                    "
+                    @click="deleteColourFromList(i)"
+                  >
+                    <q-tooltip
+                      >Delete {{ colour.name || colour.colour }}</q-tooltip
+                    >
+                  </q-btn>
+                  <q-btn
+                    style="
+                      min-height: 0px;
+                      width: 10vw;
+                      min-width: 40px;
+                      height: 4px;
+                      border-radius: 0px 0px 2px 2px;
+                      padding: 0;
+                      margin: 0;
+                      background-color: rgb(234, 149, 12);
+                    "
+                  >
+                    <q-tooltip
+                      >Rename {{ colour.name || colour.colour }}</q-tooltip
+                    >
+                  </q-btn>
+                </div>
               </div>
             </q-card>
           </q-dialog>
@@ -216,12 +221,6 @@
 </template>
 
 <style>
-.q-space {
-  -webkit-app-region: drag;
-}
-.titlebar {
-  -webkit-app-region: drag;
-}
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -244,17 +243,21 @@
 import { defineComponent } from "vue";
 import { useColourPicked } from "stores/colourPicked";
 import { useQuasar } from "quasar";
+import TitleBar from "components/TitleBar.vue";
 
 export default defineComponent({
   name: "IndexPage",
+  components: {
+    TitleBar,
+  },
   data() {
     return {
       inEyedropperMode: false,
       store: useColourPicked(),
-      appSizeMaximised: false,
       savedColours: [],
-      showAllSavedColours: true,
+      showAllSavedColours: false,
       $q: useQuasar(),
+      coloursFilterText: "",
     };
   },
   methods: {
@@ -281,9 +284,11 @@ export default defineComponent({
       this.$q.localStorage.set("savedColoursSelected", getData);
     },
     deleteColourFromList(index) {
+      console.log("Trying to call");
       let getData = this.$q.localStorage.getItem("savedColoursSelected");
-      getData.splice(index, 1);
+      getData.splice(this.savedColours.length - 1 - index, 1); // because its in reverse
       this.$q.localStorage.set("savedColoursSelected", getData);
+      this.getSavedColours();
     },
     openEyedropper() {
       window._eyeDropper = new EyeDropper();
@@ -310,21 +315,9 @@ export default defineComponent({
       this.openEyedropper();
       window.electronAPI.manageColourPickerViewer(true);
     },
-
-    changeAppState(state) {
-      // minimise, maximise, exit
-      window.electronAPI.changeAppState(state);
-      // console.log(this.appSizeMaximised);
-      this.isAppMaximised();
-    },
-
-    async isAppMaximised() {
-      this.appSizeMaximised = await window.electronAPI.getAppSize();
-    },
   },
 
   async mounted() {
-    this.isAppMaximised();
     this.getSavedColours();
     window.addEventListener("keydown", (e) => {
       window._abortController?.abort("picker closed");
