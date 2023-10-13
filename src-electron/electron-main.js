@@ -14,46 +14,19 @@ function createWindow() {
    */
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, "icons/icon.png"), // tray icon
-    width: 1000,
-    height: 600,
     frame: false,
+    width: 500,
+    height: 450,
     useContentSize: true,
     transparent: true,
     webPreferences: {
       contextIsolation: true,
+      // devTools: false,
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
     },
   });
   mainWindow.loadURL(process.env.APP_URL);
-  // coloursPointerViewer = new BrowserWindow({
-  //   parent: mainWindow,
-  //   show: false,
-  //   alwaysOnTop: false,
-  //   fullscreen: false,
-  //   transparent: true,
-  //   frame: false,
-  //   webPreferences: {
-  //     contextIsolation: true,
-  //     // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
-  //     preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
-  //   },
-  // }); // live Colours finder
-  // canvasViewer = new BrowserWindow({
-  //   parent: mainWindow,
-  //   show: false,
-  //   transparent: true,
-  //   frame: false,
-  //   webPreferences: {
-  //     contextIsolation: true,
-  //     // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
-  //     preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
-  //   },
-  // });
-  // console.log(process.env.APP_URL);
-  // coloursPointerViewer.loadURL(process.env.APP_URL + "/#/canvas");
-  // console.log("process.env.APP_URL");
-  // console.log(process.env.APP_URL);
 
   if (process.env.DEBUGGING) {
     // if on DEV or Production with debug enabled
@@ -65,17 +38,9 @@ function createWindow() {
     });
   }
 
-  // mainWindow.hookWindowMessage(0x0200, (wParam, lParam) => {
-  //   console.log(wParam.readUInt32LE(0));
-  // });
-
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
-
-  // mainWindow.webContents.on("input-event", (event, inp) => {
-  //   console.log(inp.modifiers);
-  // });
 }
 
 async function getStreams(event) {
@@ -91,14 +56,8 @@ async function getStreams(event) {
 function manageEyeDropper(event, val) {
   if (val == true) {
     mainWindow.setFullScreen(true);
-    // mainWindow.setAlwaysOnTop(true);
-    // mainWindow.hide();
-    // coloursPointerViewer.show();
   } else {
     mainWindow.setFullScreen(false);
-    // mainWindow.setAlwaysOnTop(false);
-    // coloursPointerViewer.hide();
-    // mainWindow.show();
   }
 }
 

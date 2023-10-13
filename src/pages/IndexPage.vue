@@ -1,7 +1,11 @@
 <template>
   <div v-if="!inEyedropperMode">
     <q-page class="overflow" style="background-color: rgb(24, 24, 24)">
-      <div class="row q-pa-none" style="background-color: rgb(46, 46, 46)">
+      <div
+        id="toolbar"
+        class="row q-pa-none"
+        style="background-color: rgb(46, 46, 46)"
+      >
         <q-avatar
           class="text-white self-center q-ml-sm titlebar"
           icon="colorize"
@@ -70,38 +74,69 @@
                 Start colour picker (<span style="font-weight: bold"
                   >Pick:</span
                 >
-                Left Click, <span style="font-weight: bold">Cancel:</span> Right
-                Click)
+                Left Click, <span style="font-weight: bold">Cancel:</span> Any
+                Key Press)
+              </q-tooltip>
+            </q-btn>
+            <q-btn
+              class="text-white q-ml-sm q-my-sm"
+              size="sm"
+              unelevated
+              dense
+              style="background-color: rgb(54, 54, 54)"
+              icon="save"
+              @click="openEyedropperViewer"
+            >
+              <q-tooltip> Save colour on colour selector manually. </q-tooltip>
+            </q-btn>
+          </div>
+          <div class="row q-mt-sm q-mb-md text-white">
+            <q-btn
+              class="q-pr-sm"
+              unelevated
+              style="
+                background-color: rgb(38, 38, 38);
+                text-transform: capitalize;
+              "
+              label="Start live colour finder"
+            >
+              <q-tooltip>
+                Finds colour on page and highlight it. Cancel it by mouse click
+                or key press.
               </q-tooltip>
             </q-btn>
           </div>
-          <div class="row q-mt-sm text-white">
-            <q-checkbox
-              keep-color
+          <!-- -------- -->
+          <div class="row q-mt-sm q-mb-md">
+            <q-btn
               class="q-pr-sm"
-              color="grey-9"
-              style="background-color: rgb(38, 38, 38)"
-              v-model="colourPickerRemainOnTop"
-              label="Hide the app"
+              unelevated
+              :style="`
+                background-color: ${store.colourSelected};
+                text-transform: capitalize;
+                width: 100px;`"
             >
               <q-tooltip>
-                Hide the app when colour picker starts on checked
+                Finds colour on page and highlight it. Cancel it by mouse click
+                or key press.
               </q-tooltip>
-            </q-checkbox>
+            </q-btn>
           </div>
-          <div class="row q-mt-sm text-white">
-            <q-checkbox
-              keep-color
+          <!-- --- -->
+          <div class="row q-mt-sm">
+            <q-btn
               class="q-pr-sm"
-              color="grey-9"
-              style="background-color: rgb(38, 38, 38)"
-              v-model="colourPickerRemainOnTop"
-              label="Live colour finder"
+              unelevated
+              :style="`
+                background-color: ${store.colourSelected};
+                text-transform: capitalize;
+                width: 120px;`"
             >
               <q-tooltip>
-                Finds colour on page and highlight it when checked
+                Finds colour on page and highlight it. Cancel it by mouse click
+                or key press.
               </q-tooltip>
-            </q-checkbox>
+            </q-btn>
           </div>
         </div>
       </div>
@@ -128,7 +163,6 @@ export default defineComponent({
   data() {
     return {
       inEyedropperMode: false,
-      colourPickerRemainOnTop: true,
       store: useColourPicked(),
       appSizeMaximised: false,
     };
@@ -172,8 +206,20 @@ export default defineComponent({
   async mounted() {
     this.isAppMaximised();
     window.addEventListener("keydown", (e) => {
-      window._abortController.abort();
+      window._abortController?.abort();
     });
+    // window.addEventListener("mov", (e) => {
+    //   console.log(e.screenY);
+    //   e.screenY < 10 ? changeAppState("maximise") : changeAppState("minimise");
+    // });
   },
 });
 </script>
+
+<!--
+  Can keep atleast 1200 colours (renamable, search by name, select on colour picker, delete from list)
+  Add save colour manually button on current selected colour,
+  live colour viewer,
+  make window sized to contents,
+  Custom icon creation
+-->

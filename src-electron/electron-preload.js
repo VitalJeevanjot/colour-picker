@@ -15,8 +15,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getStreams: async () => {
     return await ipcRenderer.invoke("get:streams");
   },
-  manageColourPickerViewer: (bool_val) => {
-    ipcRenderer.send("manage:eyedropperview", bool_val);
+  manageColourPickerViewer: (start_picker) => {
+    ipcRenderer.send("manage:eyedropperview", start_picker);
   },
   printLog: (err) => {
     ipcRenderer.send("log:print", err);
