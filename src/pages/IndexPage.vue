@@ -194,8 +194,10 @@ export default defineComponent({
         this.$q.localStorage.getItem("savedColoursSelected") || [];
       // console.log(currSaved);
       currSaved.push({ name: null, colour: colour });
+      if (currSaved.length > 1200) {
+        currSaved.splice(currSaved.length - 1, 1);
+      }
       this.$q.localStorage.set("savedColoursSelected", currSaved);
-      console.trace("why is happening");
       this.getSavedColours();
     },
     renameColourFromList(index, newName) {
@@ -208,6 +210,7 @@ export default defineComponent({
     deleteColourFromList(index) {
       let getData = this.$q.localStorage.getItem("savedColoursSelected");
       getData.splice(index, 1);
+      this.$q.localStorage.set("savedColoursSelected", getData);
     },
     openEyedropper() {
       window._eyeDropper = new EyeDropper();
