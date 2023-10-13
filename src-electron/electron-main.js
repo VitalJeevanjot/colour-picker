@@ -17,6 +17,8 @@ function createWindow() {
     frame: false,
     width: 500,
     height: 450,
+    minWidth: 500,
+    minHeight: 450,
     useContentSize: true,
     transparent: true,
     webPreferences: {

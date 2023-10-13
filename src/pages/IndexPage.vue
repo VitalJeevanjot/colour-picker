@@ -85,12 +85,12 @@
               dense
               style="background-color: rgb(54, 54, 54)"
               icon="save"
-              @click="openEyedropperViewer"
+              @click="saveColourSelectedToList(store.colourSelected)"
             >
               <q-tooltip> Save colour on colour selector manually. </q-tooltip>
             </q-btn>
           </div>
-          <div class="row q-mt-sm q-mb-md text-white">
+          <!-- <div class="row q-mt-sm q-mb-md text-white">
             <q-btn
               class="q-pr-sm"
               unelevated
@@ -105,8 +105,9 @@
                 or key press.
               </q-tooltip>
             </q-btn>
-          </div>
+          </div> -->
           <!-- -------- -->
+          <!-- Last selected colour before close -->
           <div class="row q-mt-sm q-mb-md">
             <q-btn
               class="q-pr-sm"
@@ -114,7 +115,8 @@
               :style="`
                 background-color: ${store.colourSelected};
                 text-transform: capitalize;
-                width: 100px;`"
+                width: 100px;
+                border: 1px solid white;`"
             >
               <q-tooltip>
                 Finds colour on page and highlight it. Cancel it by mouse click
@@ -123,14 +125,26 @@
             </q-btn>
           </div>
           <!-- --- -->
-          <div class="row q-mt-sm">
+          <div
+            class="row q-mt-sm"
+            v-for="(colour, i) in savedColours.slice().reverse().slice(0, 5)"
+            :key="i"
+          >
             <q-btn
               class="q-pr-sm"
               unelevated
+              @click="store.colourSelected = colour.colour"
+              :label="colour.name || colour.colour"
               :style="`
-                background-color: ${store.colourSelected};
+                background-color: ${colour.colour};
+                color: white;
+                text-shadow: 0px 0px 4px black;
                 text-transform: capitalize;
-                width: 120px;`"
+                width: 30vw;
+                min-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border: 1px solid white`"
             >
               <q-tooltip>
                 Finds colour on page and highlight it. Cancel it by mouse click
@@ -156,7 +170,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useColourPicked } from "stores/colourPicked";
-import { event } from "quasar";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "IndexPage",
@@ -165,9 +179,36 @@ export default defineComponent({
       inEyedropperMode: false,
       store: useColourPicked(),
       appSizeMaximised: false,
+      savedColours: [],
+      $q: useQuasar(),
     };
   },
   methods: {
+    getSavedColours() {
+      this.savedColours =
+        this.$q.localStorage.getItem("savedColoursSelected") || [];
+      return this.$q.localStorage.getItem("savedColoursSelected") || [];
+    },
+    saveColourSelectedToList(colour) {
+      let currSaved =
+        this.$q.localStorage.getItem("savedColoursSelected") || [];
+      // console.log(currSaved);
+      currSaved.push({ name: null, colour: colour });
+      this.$q.localStorage.set("savedColoursSelected", currSaved);
+      console.trace("why is happening");
+      this.getSavedColours();
+    },
+    renameColourFromList(index, newName) {
+      let getData = this.$q.localStorage.getItem("savedColoursSelected");
+      if (getData) {
+        getData[index].name = newName;
+      }
+      this.$q.localStorage.set("savedColoursSelected", getData);
+    },
+    deleteColourFromList(index) {
+      let getData = this.$q.localStorage.getItem("savedColoursSelected");
+      getData.splice(index, 1);
+    },
     openEyedropper() {
       window._eyeDropper = new EyeDropper();
       window._abortController = new AbortController();
@@ -177,10 +218,12 @@ export default defineComponent({
         .then((result) => {
           this.store.newColour(result.sRGBHex);
           window.electronAPI.manageColourPickerViewer(false);
+          this.saveColourSelectedToList(result.sRGBHex);
           this.inEyedropperMode = false;
         })
         .catch((e) => {
           console.log(e);
+          this.$q.notify(e.message);
           window.electronAPI.printLog(e.message);
           window.electronAPI.manageColourPickerViewer(false);
           this.inEyedropperMode = false;
@@ -203,8 +246,10 @@ export default defineComponent({
       this.appSizeMaximised = await window.electronAPI.getAppSize();
     },
   },
+
   async mounted() {
     this.isAppMaximised();
+    this.getSavedColours();
     window.addEventListener("keydown", (e) => {
       window._abortController?.abort();
     });
@@ -217,9 +262,11 @@ export default defineComponent({
 </script>
 
 <!--
+  (This not required yet)live colour viewer,
+  (Done)make window sized to contents,
   Can keep atleast 1200 colours (renamable, search by name, select on colour picker, delete from list)
   Add save colour manually button on current selected colour,
-  live colour viewer,
-  make window sized to contents,
   Custom icon creation
+  Use the same size window as was used last time.
+  Add the colour of the ehx at top right faded on each bar when listing in dialog.
 -->
