@@ -182,8 +182,8 @@
                       min-height: 0px;
                       width: 10vw;
                       min-width: 40px;
-                      height: 4px;
-                      border-radius: 0px 0px 2px 2px;
+                      height: 10px;
+                      border-radius: 0px 0px 0px 2px;
                       padding: 0;
                       margin: 0;
                       background-color: rgb(255, 0, 0);
@@ -199,8 +199,8 @@
                       min-height: 0px;
                       width: 10vw;
                       min-width: 40px;
-                      height: 4px;
-                      border-radius: 0px 0px 2px 2px;
+                      height: 10px;
+                      border-radius: 0px 0px 2px 0px;
                       padding: 0;
                       margin: 0;
                       background-color: rgb(234, 149, 12);
@@ -282,6 +282,7 @@ export default defineComponent({
         getData[index].name = newName;
       }
       this.$q.localStorage.set("savedColoursSelected", getData);
+      this.getSavedColours();
     },
     deleteColourFromList(index) {
       console.log("Trying to call");
