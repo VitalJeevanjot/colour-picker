@@ -82,16 +82,17 @@
           </div>
           <!-- --- -->
           <div
-            class="row q-mt-sm"
-            v-for="(colour, i) in savedColours.slice().reverse().slice(0, 5)"
+            class="q-mt-sm"
+            v-for="(colour, i) in savedColours.slice().reverse().slice(0, 4)"
             :key="i"
           >
-            <q-btn
-              class="q-pr-sm"
-              unelevated
-              @click="store.colourSelected = colour.colour"
-              :label="colour.name || colour.colour"
-              :style="`
+            <div class="row">
+              <q-btn
+                class="q-pr-sm"
+                unelevated
+                @click="store.colourSelected = colour.colour"
+                :label="colour.name || 'unNamed'"
+                :style="`
                 background-color: ${colour.colour};
                 color: white;
                 text-shadow: 0px 0px 4px black;
@@ -101,15 +102,21 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 border: 1px solid white`"
-            >
-              <q-tooltip>
-                Finds colour on page and highlight it. Cancel it by mouse click
-                or key press.
-              </q-tooltip>
-            </q-btn>
+              >
+                <q-tooltip>
+                  Finds colour on page and highlight it. Cancel it by mouse
+                  click or key press.
+                </q-tooltip>
+              </q-btn>
+            </div>
+            <div class="row">
+              <span class="text-caption text-grey-3 q-mr-sm">{{
+                colour.colour
+              }}</span>
+            </div>
           </div>
           <!-- --- -->
-          <div class="row q-mt-sm q-mt-md">
+          <div class="row q-mt-sm">
             <q-btn
               unelevated
               icon="history"
@@ -118,6 +125,7 @@
                 background-color: rgb(46, 46, 46);
                 color: white;
                 text-transform: capitalize;
+                min-height: 20px;
                `"
             >
               <q-tooltip> Open all saved colours. </q-tooltip>
@@ -155,13 +163,19 @@
                 v-for="(colour, i) in savedColours.slice().reverse()"
                 :key="i"
               >
-                <div class="row q-mt-sm justify-center q-mx-xl">
+                <div class="row q-mt-sm q-mx-xl">
+                  <span
+                    class="text-caption text-grey-3 q-mr-sm"
+                    style="overflow: hidden; text-overflow: ellipsis"
+                    >{{ colour.colour }}</span
+                  >
+                </div>
+                <div class="row justify-center q-mx-xl">
                   <q-btn
                     class="q-pr-sm"
                     unelevated
                     v-close-popup
                     @click="store.colourSelected = colour.colour"
-                    :label="colour.name || colour.colour"
                     :style="`
                 background-color: ${colour.colour};
                 color: white;
@@ -169,10 +183,11 @@
                 text-transform: capitalize;
                 width: 30vw;
                 min-width: 120px;
-                overflow: hidden;
-                text-overflow: ellipsis;
                 border: 1px solid white`"
                   >
+                    <span style="overflow: hidden; text-overflow: ellipsis">{{
+                      colour.name || "unNamed"
+                    }}</span>
                   </q-btn>
                 </div>
 
@@ -186,13 +201,11 @@
                       border-radius: 0px 0px 0px 2px;
                       padding: 0;
                       margin: 0;
-                      background-color: rgb(255, 0, 0);
+                      background-color: rgb(0, 94, 184);
                     "
                     @click="deleteColourFromList(i)"
                   >
-                    <q-tooltip
-                      >Delete {{ colour.name || colour.colour }}</q-tooltip
-                    >
+                    <q-tooltip>Delete {{ colour.colour }}</q-tooltip>
                   </q-btn>
                   <q-btn
                     style="
@@ -203,12 +216,38 @@
                       border-radius: 0px 0px 2px 0px;
                       padding: 0;
                       margin: 0;
-                      background-color: rgb(234, 149, 12);
+                      background-color: rgb(255, 255, 255);
                     "
                   >
-                    <q-tooltip
-                      >Rename {{ colour.name || colour.colour }}</q-tooltip
+                    <q-tooltip>Rename {{ colour.colour }}</q-tooltip>
+                    <q-popup-proxy
+                      @before-show="currentRenameText = colour.name"
+                      @hide="renameColourFromList(i)"
                     >
+                      <q-banner class="bg-black">
+                        <template v-slot:avatar>
+                          <q-btn
+                            class="text-white q-my-xs"
+                            unelevated
+                            dense
+                            size="sm"
+                            icon="edit"
+                            v-close-popup
+                            ><q-tooltip>Edit</q-tooltip></q-btn
+                          >
+                        </template>
+                        <q-input
+                          dark
+                          label="Rename"
+                          class="text-white"
+                          outlined
+                          dense
+                          @keypress.enter="renameColourFromList(i)"
+                          v-model="currentRenameText"
+                          color="grey-1"
+                        ></q-input>
+                      </q-banner>
+                    </q-popup-proxy>
                   </q-btn>
                 </div>
               </div>
@@ -258,6 +297,7 @@ export default defineComponent({
       showAllSavedColours: false,
       $q: useQuasar(),
       coloursFilterText: "",
+      currentRenameText: "",
     };
   },
   methods: {
@@ -266,20 +306,19 @@ export default defineComponent({
         this.$q.localStorage.getItem("savedColoursSelected") || [];
     },
     saveColourSelectedToList(colour) {
-      let currSaved =
-        this.$q.localStorage.getItem("savedColoursSelected") || [];
       // console.log(currSaved);
-      currSaved.push({ name: null, colour: colour });
-      if (currSaved.length > 1200) {
-        currSaved.splice(currSaved.length - 1, 1);
+      this.savedColours.push({ name: null, colour: colour });
+      if (this.savedColours.length > 1200) {
+        this.savedColours.splice(this.savedColours.length - 1, 1);
       }
-      this.$q.localStorage.set("savedColoursSelected", currSaved);
+      this.$q.localStorage.set("savedColoursSelected", this.savedColours);
       this.getSavedColours();
     },
-    renameColourFromList(index, newName) {
+    renameColourFromList(index) {
       let getData = this.$q.localStorage.getItem("savedColoursSelected");
       if (getData) {
-        getData[index].name = newName;
+        getData[this.savedColours.length - 1 - index].name =
+          this.currentRenameText;
       }
       this.$q.localStorage.set("savedColoursSelected", getData);
       this.getSavedColours();
