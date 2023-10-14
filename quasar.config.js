@@ -170,8 +170,7 @@ module.exports = configure(function (/* ctx */) {
       // specify the debugging port to use for the Electron app when running in development mode
       inspectPort: 5858,
 
-      bundler: "packager", // 'packager' or 'builder'
-
+      bundler: "builder", // 'packager' or 'builder'
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
         // OS X / Mac App Store
@@ -185,17 +184,19 @@ module.exports = configure(function (/* ctx */) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-
         appId: "com.jeevanjotsinghvital.colourpicker",
+        win: {
+          target: "nsis",
+        },
       },
-    },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
-    bex: {
-      contentScripts: ["my-content-script"],
+      // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
+      bex: {
+        contentScripts: ["my-content-script"],
 
-      // extendBexScriptsConf (esbuildConf) {}
-      // extendBexManifestJson (json) {}
+        // extendBexScriptsConf (esbuildConf) {}
+        // extendBexManifestJson (json) {}
+      },
     },
   };
 });
