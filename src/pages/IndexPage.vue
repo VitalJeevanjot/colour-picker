@@ -74,10 +74,29 @@
                 width: 100px;
                 border: 1px solid white;`"
             >
-              <q-tooltip>
-                Finds colour on page and highlight it. Cancel it by mouse click
-                or key press.
-              </q-tooltip>
+              <q-tooltip> Current colour </q-tooltip>
+            </q-btn>
+            <q-btn
+              class="text-white q-ml-sm q-my-sm"
+              size="sm"
+              unelevated
+              dense
+              style="background-color: rgb(54, 54, 54)"
+              icon="content_copy"
+              @click="copyCurrentColourHEX()"
+            >
+              <q-tooltip> Copy current colour hex. </q-tooltip>
+            </q-btn>
+            <q-btn
+              class="text-white q-ml-sm q-my-sm"
+              size="sm"
+              unelevated
+              dense
+              style="background-color: rgb(54, 54, 54)"
+              icon="content_copy"
+              @click="copyCurrentColourRGB()"
+            >
+              <q-tooltip> Copy current colour rgb. </q-tooltip>
             </q-btn>
           </div>
           <!-- --- -->
@@ -91,7 +110,6 @@
                 class="q-pr-sm"
                 unelevated
                 @click="store.colourSelected = colour.colour"
-                :label="colour.name || 'unNamed'"
                 :style="`
                 background-color: ${colour.colour};
                 color: white;
@@ -99,13 +117,19 @@
                 text-transform: capitalize;
                 width: 30vw;
                 min-width: 120px;
-                overflow: hidden;
-                text-overflow: ellipsis;
                 border: 1px solid white`"
               >
+                <span
+                  style="
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    font-size: 0.6rem;
+                  "
+                >
+                  {{ colour.name || "unNamed" }}
+                </span>
                 <q-tooltip>
-                  Finds colour on page and highlight it. Cancel it by mouse
-                  click or key press.
+                  Finds colour on screen. Cancel it by mouse click or key press.
                 </q-tooltip>
               </q-btn>
             </div>
@@ -185,9 +209,14 @@
                 min-width: 120px;
                 border: 1px solid white`"
                   >
-                    <span style="overflow: hidden; text-overflow: ellipsis">{{
-                      colour.name || "unNamed"
-                    }}</span>
+                    <span
+                      style="
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        font-size: 0.6rem;
+                      "
+                      >{{ colour.name || "unNamed" }}</span
+                    >
                   </q-btn>
                 </div>
 
@@ -201,7 +230,7 @@
                       border-radius: 0px 0px 0px 2px;
                       padding: 0;
                       margin: 0;
-                      background-color: rgb(0, 94, 184);
+                      background-color: rgb(207, 74, 13);
                     "
                     @click="deleteColourFromList(i)"
                   >
@@ -281,7 +310,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useColourPicked } from "stores/colourPicked";
-import { useQuasar } from "quasar";
+import { useQuasar, copyToClipboard, colors } from "quasar";
 import TitleBar from "components/TitleBar.vue";
 
 export default defineComponent({
@@ -301,6 +330,36 @@ export default defineComponent({
     };
   },
   methods: {
+    copyCurrentColourHEX() {
+      copyToClipboard(this.store.colourSelected)
+        .then(() => {
+          // success!
+          this.$q.notify({
+            message: "Copied " + this.store.colourSelected,
+            color: "grey-10",
+            position: "top-left",
+          });
+        })
+        .catch((e) => {
+          this.$q.notify({ message: e.message });
+        });
+    },
+    copyCurrentColourRGB() {
+      const toRGB = colors.hexToRgb(this.store.colourSelected);
+      const rgbJoined = [toRGB.r, toRGB.g, toRGB.b].join();
+      copyToClipboard(rgbJoined)
+        .then(() => {
+          // success!
+          this.$q.notify({
+            message: "Copied " + rgbJoined,
+            color: "grey-10",
+            position: "top-left",
+          });
+        })
+        .catch((e) => {
+          this.$q.notify({ message: e.message });
+        });
+    },
     getSavedColours() {
       this.savedColours =
         this.$q.localStorage.getItem("savedColoursSelected") || [];
