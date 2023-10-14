@@ -119,24 +119,28 @@
                 min-width: 120px;
                 border: 1px solid white`"
               >
-                <span
-                  style="
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    font-size: 0.6rem;
-                  "
-                >
-                  {{ colour.name || "unNamed" }}
-                </span>
-                <q-tooltip>
-                  Finds colour on screen. Cancel it by mouse click or key press.
-                </q-tooltip>
+                <q-tooltip> Select Colour </q-tooltip>
               </q-btn>
             </div>
-            <div class="row">
-              <span class="text-caption text-grey-3 q-mr-sm">{{
-                colour.colour
-              }}</span>
+            <div
+              class="row justify-around"
+              style="
+                white-space: nowrap;
+                overflow: hidden;
+                width: 30vw;
+                min-width: 120px;
+              "
+            >
+              <div class="col-sm-3 text-left">
+                <span class="text-caption text-grey-3 q-mr-sm"
+                  >{{ colour.colour }}
+                </span>
+              </div>
+              <div class="col text-right">
+                <span style="color: white; font-size: 0.6rem">
+                  {{ colour.name || "unNamed" }}
+                </span>
+              </div>
             </div>
           </div>
           <!-- --- -->
@@ -187,14 +191,41 @@
                 v-for="(colour, i) in savedColours.slice().reverse()"
                 :key="i"
               >
-                <div class="row q-mt-sm q-mx-xl">
+                <!-- <div class="row q-mt-sm q-mx-xl">
                   <span
                     class="text-caption text-grey-3 q-mr-sm"
                     style="overflow: hidden; text-overflow: ellipsis"
                     >{{ colour.colour }}</span
                   >
+                </div> -->
+                <div
+                  class="row q-mt-sm q-mx-xl justify-center"
+                  style="white-space: nowrap; overflow: hidden"
+                >
+                  <div class="col-sm-3 text-left">
+                    <span class="text-caption text-grey-3 q-mr-sm"
+                      >{{ colour.colour }}
+                    </span>
+                  </div>
+                  <div class="col text-right">
+                    <span style="color: white; font-size: 0.6rem">
+                      {{ colour.name || "unNamed" }}
+                    </span>
+                  </div>
                 </div>
+
                 <div class="row justify-center q-mx-xl">
+                  <q-btn
+                    class="q-mr-sm self-center text-grey-4"
+                    unelevated
+                    dense
+                    size="sm"
+                    icon="delete"
+                    style="background-color: rgb(54, 54, 54)"
+                    @click="deleteColourFromList(i)"
+                  >
+                    <q-tooltip>Delete {{ colour.colour }}</q-tooltip>
+                  </q-btn>
                   <q-btn
                     class="q-pr-sm"
                     unelevated
@@ -209,44 +240,14 @@
                 min-width: 120px;
                 border: 1px solid white`"
                   >
-                    <span
-                      style="
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        font-size: 0.6rem;
-                      "
-                      >{{ colour.name || "unNamed" }}</span
-                    >
-                  </q-btn>
-                </div>
-
-                <div class="row justify-center q-mx-xl">
-                  <q-btn
-                    style="
-                      min-height: 0px;
-                      width: 10vw;
-                      min-width: 40px;
-                      height: 10px;
-                      border-radius: 0px 0px 0px 2px;
-                      padding: 0;
-                      margin: 0;
-                      background-color: rgb(207, 74, 13);
-                    "
-                    @click="deleteColourFromList(i)"
-                  >
-                    <q-tooltip>Delete {{ colour.colour }}</q-tooltip>
                   </q-btn>
                   <q-btn
-                    style="
-                      min-height: 0px;
-                      width: 10vw;
-                      min-width: 40px;
-                      height: 10px;
-                      border-radius: 0px 0px 2px 0px;
-                      padding: 0;
-                      margin: 0;
-                      background-color: rgb(255, 255, 255);
-                    "
+                    class="q-ml-sm self-center text-grey-4"
+                    unelevated
+                    dense
+                    size="sm"
+                    icon="edit"
+                    style="background-color: rgb(54, 54, 54)"
                   >
                     <q-tooltip>Rename {{ colour.colour }}</q-tooltip>
                     <q-popup-proxy
@@ -279,6 +280,51 @@
                     </q-popup-proxy>
                   </q-btn>
                 </div>
+
+                <!-- <div class="row justify-center q-mx-xl">
+                  <q-btn
+                    style="
+                      min-height: 0px;
+                      width: 10vw;
+                      min-width: 40px;
+                      height: 6px;
+                      border-radius: 0px 0px 2px 0px;
+                      padding: 0;
+                      margin: 0;
+                      background-color: rgb(25, 138, 80);
+                    "
+                  >
+                    <q-tooltip>Rename {{ colour.colour }}</q-tooltip>
+                    <q-popup-proxy
+                      @before-show="currentRenameText = colour.name"
+                      @hide="renameColourFromList(i)"
+                    >
+                      <q-banner class="bg-black">
+                        <template v-slot:avatar>
+                          <q-btn
+                            class="text-white q-my-xs"
+                            unelevated
+                            dense
+                            size="sm"
+                            icon="edit"
+                            v-close-popup
+                            ><q-tooltip>Edit</q-tooltip></q-btn
+                          >
+                        </template>
+                        <q-input
+                          dark
+                          label="Rename"
+                          class="text-white"
+                          outlined
+                          dense
+                          @keypress.enter="renameColourFromList(i)"
+                          v-model="currentRenameText"
+                          color="grey-1"
+                        ></q-input>
+                      </q-banner>
+                    </q-popup-proxy>
+                  </q-btn>
+                </div> -->
               </div>
             </q-card>
           </q-dialog>
