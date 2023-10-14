@@ -488,10 +488,10 @@ export default defineComponent({
 
 <!--
   (This not required yet)live colour viewer,
+  (This is not required yet)Use the same size window as was used last time.
   (Done)make window sized to contents,
-  Can keep atleast 1200 colours (renamable, search by name, select on colour picker, delete from list)
-  Add save colour manually button on current selected colour,
+  (Done)Can keep atleast 1200 colours (renamable, search by name, select on colour picker, delete from list)
+  (Done)Add save colour manually button on current selected colour,
+  (Done)Add the colour of the hex at top right faded on each bar when listing in dialog.
   Custom icon creation
-  Use the same size window as was used last time.
-  Add the colour of the ehx at top right faded on each bar when listing in dialog.
 -->
