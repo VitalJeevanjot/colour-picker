@@ -188,7 +188,18 @@
               </div>
               <!-- colours in dialog -->
               <div
-                v-for="(colour, i) in savedColours.slice().reverse()"
+                v-for="(colour, i) in savedColours
+                  .slice()
+                  .reverse()
+                  .filter(
+                    (val) =>
+                      val?.colour
+                        ?.toLowerCase()
+                        .includes(coloursFilterText.toLowerCase()) ||
+                      val?.name
+                        ?.toLowerCase()
+                        .includes(coloursFilterText.toLowerCase())
+                  )"
                 :key="i"
               >
                 <!-- <div class="row q-mt-sm q-mx-xl">
