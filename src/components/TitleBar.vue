@@ -4,13 +4,11 @@
     class="row q-pa-none"
     style="background-color: rgb(46, 46, 46)"
   >
-    <q-avatar
-      class="text-white self-center q-ml-sm titlebar"
-      icon="colorize"
-      size="sm"
-    />
+    <q-avatar class="text-white self-center q-ml-sm titlebar" size="sm">
+      <img src="colour picker logo.png"
+    /></q-avatar>
     <!-- Todo above avatar: change to original icon -->
-    <span class="text-white q-my-xs q-ml-xs titlebar">Colour Picker</span>
+    <span class="text-white q-my-xs q-ml-sm titlebar">Colour Picker</span>
     <q-space />
     <q-btn
       class="text-white q-my-xs"
