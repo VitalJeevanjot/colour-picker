@@ -184,9 +184,16 @@ module.exports = configure(function (/* ctx */) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-        appId: "com.jeevanjotsinghvital.colourpicker",
+        appId: "27126VitalVictor.ColourPickerManage",
         win: {
-          target: "nsis",
+          target: "appx", // or appx or more
+        },
+        appx: {
+          displayName: "Colour Picker Manage",
+          // identityName: "27126VitalVictor.ColourPickerManage",
+          publisher: "CN=D8EA149B-EABF-46F9-A877-703D35BFD389",
+          publisherDisplayName: "VitalVictor",
+          languages: "en-GB",
         },
       },
 
