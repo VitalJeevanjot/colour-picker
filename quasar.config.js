@@ -190,6 +190,10 @@ module.exports = configure(function (/* ctx */) {
         },
         appx: {
           displayName: "Colour Picker Manage",
+          // Logo: "StoreLogo.png",
+          // Square150x150Logo: "Square150x150Logo.png",
+          // Square44x44Logo: "Square44x44Logo.png",
+          // Wide310x150Logo: "Wide310x150Logo.png",
           // identityName: "27126VitalVictor.ColourPickerManage",
           publisher: "CN=D8EA149B-EABF-46F9-A877-703D35BFD389",
           publisherDisplayName: "VitalVictor",
