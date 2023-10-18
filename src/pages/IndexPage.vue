@@ -460,8 +460,12 @@ export default defineComponent({
         })
         .catch((e) => {
           console.log(e);
-          this.$q.notify(e.message);
-          window.electronAPI.printLog(e.message);
+          if(e) {
+            this.$q.notify({
+                message: e?.toString()
+              });
+              window.electronAPI.printLog(e.toString());
+            }
           window.electronAPI.manageColourPickerViewer(false);
           this.inEyedropperMode = false;
         });

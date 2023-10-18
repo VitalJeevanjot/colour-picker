@@ -66,7 +66,7 @@ function manageEyeDropper(event, val) {
 }
 
 function printLog(event, val) {
-  console.log(val.toString());
+  console.log(val?.toString());
 }
 
 function changeAppState(event, state) {
