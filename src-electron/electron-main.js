@@ -1,7 +1,7 @@
 import { app, BrowserWindow, desktopCapturer, ipcMain } from "electron";
 import path from "path";
 import os from "os";
-import { event } from "quasar";
+import { resolveLocale } from "../src/i18n/locale.mjs";
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -88,6 +88,8 @@ function getAppMaximised() {
 }
 
 app.whenReady().then(() => {
+  const locale = resolveLocale(app.getLocale());
+  ipcMain.handle("get:locale", () => locale);
   ipcMain.handle("get:streams", getStreams);
   ipcMain.on("manage:eyedropperview", manageEyeDropper);
   ipcMain.on("log:print", printLog);

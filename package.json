@@ -6,9 +6,9 @@
   "author": "Jeevanjot Singh <40867747+VitalJeevanjot@users.noreply.github.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue ./",
+    "lint": "eslint --ext .js,.mjs,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0",
+    "test": "node --test",
     "dev": "quasar dev",
     "build": "quasar build"
   },
@@ -18,6 +18,7 @@
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
+    "vue-i18n": "^11.4.24",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
@@ -40,7 +41,7 @@
     "workbox-strategies": "^7.0.0"
   },
   "engines": {
-    "node": "^18 || ^16 || ^14.19",
+    "node": ">=22",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }

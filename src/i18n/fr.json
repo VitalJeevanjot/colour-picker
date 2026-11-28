@@ -1,0 +1,53 @@
+{
+  "languageName": "Français",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Sélectionnez et organisez des couleurs"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "systemDefault": "Langue du système"
+  },
+  "window": {
+    "minimise": "Réduire",
+    "maximise": "Agrandir",
+    "restore": "Restaurer la fenêtre",
+    "exit": "Quitter"
+  },
+  "common": {
+    "close": "Fermer"
+  },
+  "picker": {
+    "start": "Activer la pipette",
+    "help": "Activer la pipette ({pick} clic gauche, {cancel} appuyer sur une touche)",
+    "pick": "Sélectionner :",
+    "cancel": "Annuler :",
+    "save": "Enregistrer manuellement la couleur du sélecteur.",
+    "current": "Couleur actuelle",
+    "copyHex": "Copier la valeur HEX de la couleur actuelle.",
+    "copyRgb": "Copier la valeur RVB de la couleur actuelle.",
+    "openSaved": "Ouvrir toutes les couleurs enregistrées.",
+    "cancelled": "Sélection de couleur annulée.",
+    "failed": "Impossible de sélectionner une couleur.",
+    "unavailable": "La pipette est indisponible."
+  },
+  "history": {
+    "title": "Couleurs enregistrées ({count})",
+    "filter": "Filtrer",
+    "unnamed": "Sans nom",
+    "select": "Sélectionner une couleur",
+    "delete": "Supprimer {colour}",
+    "renameColour": "Renommer {colour}",
+    "rename": "Renommer",
+    "edit": "Modifier"
+  },
+  "clipboard": {
+    "copied": "{colour} copié",
+    "failed": "Impossible de copier la couleur."
+  },
+  "notFound": {
+    "title": "Oups. Il n’y a rien ici…",
+    "goHome": "Retour à l’accueil"
+  }
+}

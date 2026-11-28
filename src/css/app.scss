@@ -1,1 +1,32 @@
-// app global css in SCSS form
+body {
+  font-family: "Montserrat Alternates Regular", system-ui, sans-serif;
+}
+
+.picker-action {
+  color: white;
+  background-color: rgb(54, 54, 54);
+}
+
+.picker-tooltip {
+  max-width: min(22rem, calc(100vw - 1rem));
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.picker-dialog {
+  width: min(28rem, calc(100vw - 3rem));
+}
+
+.picker-dialog-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.picker-dialog-title {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}

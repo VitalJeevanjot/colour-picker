@@ -12,6 +12,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electronAPI", {
+  getAppLocale: () => ipcRenderer.invoke("get:locale"),
   getStreams: async () => {
     return await ipcRenderer.invoke("get:streams");
   },

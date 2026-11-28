@@ -1,0 +1,53 @@
+{
+  "languageName": "日本語",
+  "app": {
+    "title": "Colour Picker",
+    "description": "色を選択して管理します"
+  },
+  "settings": {
+    "title": "設定",
+    "language": "言語",
+    "systemDefault": "システムの既定値"
+  },
+  "window": {
+    "minimise": "最小化",
+    "maximise": "最大化",
+    "restore": "ウィンドウのサイズを元に戻す",
+    "exit": "終了"
+  },
+  "common": {
+    "close": "閉じる"
+  },
+  "picker": {
+    "start": "スポイトを起動",
+    "help": "スポイトを起動（{pick} 左クリック、{cancel} いずれかのキーを押す）",
+    "pick": "選択:",
+    "cancel": "キャンセル:",
+    "save": "カラーセレクターの色を手動で保存します。",
+    "current": "現在の色",
+    "copyHex": "現在の色のHEX値をコピーします。",
+    "copyRgb": "現在の色のRGB値をコピーします。",
+    "openSaved": "保存したすべての色を開きます。",
+    "cancelled": "色の選択をキャンセルしました。",
+    "failed": "色を選択できませんでした。",
+    "unavailable": "スポイトは使用できません。"
+  },
+  "history": {
+    "title": "保存した色（{count}）",
+    "filter": "絞り込み",
+    "unnamed": "名前なし",
+    "select": "色を選択",
+    "delete": "{colour} を削除",
+    "renameColour": "{colour} の名前を変更",
+    "rename": "名前を変更",
+    "edit": "編集"
+  },
+  "clipboard": {
+    "copied": "{colour} をコピーしました",
+    "failed": "色をコピーできませんでした。"
+  },
+  "notFound": {
+    "title": "ここには何もありません…",
+    "goHome": "ホームに戻る"
+  }
+}

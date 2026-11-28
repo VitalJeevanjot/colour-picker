@@ -1,0 +1,53 @@
+{
+  "languageName": "한국어",
+  "app": {
+    "title": "Colour Picker",
+    "description": "색상을 선택하고 관리합니다"
+  },
+  "settings": {
+    "title": "설정",
+    "language": "언어",
+    "systemDefault": "시스템 기본값"
+  },
+  "window": {
+    "minimise": "최소화",
+    "maximise": "최대화",
+    "restore": "창 크기 복원",
+    "exit": "종료"
+  },
+  "common": {
+    "close": "닫기"
+  },
+  "picker": {
+    "start": "스포이트 시작",
+    "help": "스포이트 시작({pick} 왼쪽 클릭, {cancel} 아무 키나 누르기)",
+    "pick": "선택:",
+    "cancel": "취소:",
+    "save": "선택기에 표시된 색상을 수동으로 저장합니다.",
+    "current": "현재 색상",
+    "copyHex": "현재 색상의 HEX 값을 복사합니다.",
+    "copyRgb": "현재 색상의 RGB 값을 복사합니다.",
+    "openSaved": "저장한 모든 색상을 엽니다.",
+    "cancelled": "색상 선택이 취소되었습니다.",
+    "failed": "색상을 선택할 수 없습니다.",
+    "unavailable": "스포이트를 사용할 수 없습니다."
+  },
+  "history": {
+    "title": "저장된 색상({count})",
+    "filter": "필터",
+    "unnamed": "이름 없음",
+    "select": "색상 선택",
+    "delete": "{colour} 삭제",
+    "renameColour": "{colour} 이름 변경",
+    "rename": "이름 변경",
+    "edit": "편집"
+  },
+  "clipboard": {
+    "copied": "{colour} 복사 완료",
+    "failed": "색상을 복사할 수 없습니다."
+  },
+  "notFound": {
+    "title": "여기에는 아무것도 없습니다…",
+    "goHome": "홈으로 이동"
+  }
+}

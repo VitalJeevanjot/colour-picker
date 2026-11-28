@@ -1,0 +1,53 @@
+{
+  "languageName": "Bahasa Indonesia",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Pilih dan kelola warna"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "language": "Bahasa",
+    "systemDefault": "Bawaan sistem"
+  },
+  "window": {
+    "minimise": "Minimalkan",
+    "maximise": "Maksimalkan",
+    "restore": "Pulihkan ukuran jendela",
+    "exit": "Keluar"
+  },
+  "common": {
+    "close": "Tutup"
+  },
+  "picker": {
+    "start": "Aktifkan pipet warna",
+    "help": "Aktifkan pipet warna ({pick} klik kiri, {cancel} tekan sembarang tombol)",
+    "pick": "Pilih:",
+    "cancel": "Batal:",
+    "save": "Simpan warna dari pemilih secara manual.",
+    "current": "Warna saat ini",
+    "copyHex": "Salin nilai HEX warna saat ini.",
+    "copyRgb": "Salin nilai RGB warna saat ini.",
+    "openSaved": "Buka semua warna tersimpan.",
+    "cancelled": "Pemilihan warna dibatalkan.",
+    "failed": "Warna tidak bisa dipilih.",
+    "unavailable": "Pipet warna tidak tersedia."
+  },
+  "history": {
+    "title": "Warna tersimpan ({count})",
+    "filter": "Filter",
+    "unnamed": "Tanpa nama",
+    "select": "Pilih warna",
+    "delete": "Hapus {colour}",
+    "renameColour": "Ubah nama {colour}",
+    "rename": "Ubah nama",
+    "edit": "Edit"
+  },
+  "clipboard": {
+    "copied": "{colour} disalin",
+    "failed": "Warna tidak bisa disalin."
+  },
+  "notFound": {
+    "title": "Ups. Tidak ada apa-apa di sini...",
+    "goHome": "Kembali ke beranda"
+  }
+}

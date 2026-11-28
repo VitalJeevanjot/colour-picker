@@ -1,0 +1,53 @@
+{
+  "languageName": "简体中文",
+  "app": {
+    "title": "Colour Picker",
+    "description": "选取和管理颜色"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "systemDefault": "系统默认"
+  },
+  "window": {
+    "minimise": "最小化",
+    "maximise": "最大化",
+    "restore": "还原窗口",
+    "exit": "退出"
+  },
+  "common": {
+    "close": "关闭"
+  },
+  "picker": {
+    "start": "启动吸管",
+    "help": "启动吸管（{pick} 单击鼠标左键，{cancel} 按任意键）",
+    "pick": "选取：",
+    "cancel": "取消：",
+    "save": "手动保存选色器中的颜色。",
+    "current": "当前颜色",
+    "copyHex": "复制当前颜色的 HEX 值。",
+    "copyRgb": "复制当前颜色的 RGB 值。",
+    "openSaved": "打开所有已保存的颜色。",
+    "cancelled": "已取消选色。",
+    "failed": "无法选取颜色。",
+    "unavailable": "吸管工具不可用。"
+  },
+  "history": {
+    "title": "已保存的颜色（{count}）",
+    "filter": "筛选",
+    "unnamed": "未命名",
+    "select": "选择颜色",
+    "delete": "删除 {colour}",
+    "renameColour": "重命名 {colour}",
+    "rename": "重命名",
+    "edit": "编辑"
+  },
+  "clipboard": {
+    "copied": "已复制 {colour}",
+    "failed": "无法复制颜色。"
+  },
+  "notFound": {
+    "title": "这里什么也没有……",
+    "goHome": "返回首页"
+  }
+}

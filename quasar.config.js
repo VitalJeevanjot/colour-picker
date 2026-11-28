@@ -27,7 +27,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ["axios"],
+    boot: ["axios", "i18n"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ["app.scss"],
@@ -197,7 +197,10 @@ module.exports = configure(function (/* ctx */) {
           // identityName: "27126VitalVictor.ColourPickerManage",
           publisher: "CN=D8EA149B-EABF-46F9-A877-703D35BFD389",
           publisherDisplayName: "VitalVictor",
-          languages: "en-GB",
+          languages: [
+            "en-GB", "es", "pt-BR", "fr", "de", "it", "nl", "pl", "tr", "ru",
+            "ja", "ko", "zh-Hans", "id", "hi",
+          ],
         },
       },
 

@@ -1,0 +1,53 @@
+{
+  "languageName": "Español",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Selecciona y organiza colores"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "systemDefault": "Predeterminado del sistema"
+  },
+  "window": {
+    "minimise": "Minimizar",
+    "maximise": "Maximizar",
+    "restore": "Restaurar ventana",
+    "exit": "Salir"
+  },
+  "common": {
+    "close": "Cerrar"
+  },
+  "picker": {
+    "start": "Iniciar el cuentagotas",
+    "help": "Iniciar el cuentagotas ({pick} clic izquierdo, {cancel} cualquier tecla)",
+    "pick": "Elegir:",
+    "cancel": "Cancelar:",
+    "save": "Guardar manualmente el color del selector.",
+    "current": "Color actual",
+    "copyHex": "Copiar el valor HEX del color actual.",
+    "copyRgb": "Copiar el valor RGB del color actual.",
+    "openSaved": "Abrir todos los colores guardados.",
+    "cancelled": "Selección de color cancelada.",
+    "failed": "No se pudo seleccionar un color.",
+    "unavailable": "El cuentagotas no está disponible."
+  },
+  "history": {
+    "title": "Colores guardados ({count})",
+    "filter": "Filtrar",
+    "unnamed": "Sin nombre",
+    "select": "Seleccionar color",
+    "delete": "Eliminar {colour}",
+    "renameColour": "Cambiar el nombre de {colour}",
+    "rename": "Cambiar el nombre",
+    "edit": "Editar"
+  },
+  "clipboard": {
+    "copied": "Se copió {colour}",
+    "failed": "No se pudo copiar el color."
+  },
+  "notFound": {
+    "title": "Vaya. Aquí no hay nada...",
+    "goHome": "Volver al inicio"
+  }
+}

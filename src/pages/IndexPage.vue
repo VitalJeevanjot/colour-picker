@@ -1,501 +1,405 @@
 <template>
-  <div v-if="!inEyedropperMode">
-    <q-page class="overflow" style="background-color: rgb(24, 24, 24)">
-      <TitleBar />
-      <!-- --------------------------------  -->
-      <div class="row justify-center q-pa-sm">
-        <div class="col-auto">
-          <q-color
-            v-model="store.colourSelected"
-            class="my-picker"
-            style="
-              width: 20vw;
-              min-width: 250px;
-              border: 2px solid rgb(125, 125, 125);
-            "
-          />
-        </div>
-        <div class="col-auto q-ml-sm">
-          <div class="row">
-            <q-btn
-              class="text-white"
-              unelevated
-              dense
-              style="background-color: rgb(54, 54, 54)"
-              icon="colorize"
-              @click="openEyedropperViewer"
-            >
-              <q-tooltip>
-                Start colour picker (<span style="font-weight: bold"
-                  >Pick:</span
-                >
-                Left Click, <span style="font-weight: bold">Cancel:</span> Any
-                Key Press)
-              </q-tooltip>
-            </q-btn>
-            <q-btn
-              class="text-white q-ml-sm q-my-sm"
-              size="sm"
-              unelevated
-              dense
-              style="background-color: rgb(54, 54, 54)"
-              icon="save"
-              @click="saveColourSelectedToList(store.colourSelected)"
-            >
-              <q-tooltip> Save colour on colour selector manually. </q-tooltip>
-            </q-btn>
-          </div>
-          <!-- <div class="row q-mt-sm q-mb-md text-white">
-            <q-btn
-              class="q-pr-sm"
-              unelevated
-              style="
-                background-color: rgb(38, 38, 38);
-                text-transform: capitalize;
-              "
-              label="Start live colour finder"
-            >
-              <q-tooltip>
-                Finds colour on page and highlight it. Cancel it by mouse click
-                or key press.
-              </q-tooltip>
-            </q-btn>
-          </div> -->
-          <!-- -------- -->
-          <!-- Last selected colour before close -->
-          <div class="row q-mt-sm q-mb-md">
-            <q-btn
-              class="q-pr-sm"
-              :ripple="false"
-              unelevated
-              :style="`
-                background-color: ${store.colourSelected};
-                text-transform: capitalize;
-                width: 100px;
-                border: 1px solid white;`"
-            >
-              <q-tooltip> Current colour </q-tooltip>
-            </q-btn>
-            <q-btn
-              class="text-white q-ml-sm q-my-sm"
-              size="sm"
-              unelevated
-              dense
-              style="background-color: rgb(54, 54, 54)"
-              icon="content_copy"
-              @click="copyCurrentColourHEX()"
-            >
-              <q-tooltip> Copy current colour hex. </q-tooltip>
-            </q-btn>
-            <q-btn
-              class="text-white q-ml-sm q-my-sm"
-              size="sm"
-              unelevated
-              dense
-              style="background-color: rgb(54, 54, 54)"
-              icon="content_copy"
-              @click="copyCurrentColourRGB()"
-            >
-              <q-tooltip> Copy current colour rgb. </q-tooltip>
-            </q-btn>
-          </div>
-          <!-- --- -->
-          <div
-            class="q-mt-sm"
-            v-for="(colour, i) in savedColours.slice().reverse().slice(0, 4)"
-            :key="i"
+  <q-page v-if="!inEyedropperMode" class="picker-page">
+    <TitleBar />
+
+    <div class="picker-content q-pa-sm">
+      <q-color v-model="store.colourSelected" class="picker-colour-control" />
+
+      <div class="picker-controls">
+        <div class="picker-toolbar">
+          <q-btn
+            class="picker-action"
+            unelevated
+            dense
+            icon="colorize"
+            :aria-label="$t('picker.start')"
+            @click="openEyedropperViewer"
           >
-            <div class="row">
+            <q-tooltip class="picker-tooltip">
+              <i18n-t keypath="picker.help" scope="global">
+                <template #pick
+                  ><strong>{{ $t("picker.pick") }}</strong></template
+                >
+                <template #cancel
+                  ><strong>{{ $t("picker.cancel") }}</strong></template
+                >
+              </i18n-t>
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+            class="picker-action"
+            size="sm"
+            unelevated
+            dense
+            icon="save"
+            :aria-label="$t('picker.save')"
+            @click="saveColourSelectedToList(store.colourSelected)"
+          >
+            <q-tooltip class="picker-tooltip">{{ $t("picker.save") }}</q-tooltip>
+          </q-btn>
+        </div>
+
+        <div class="picker-toolbar q-my-sm">
+          <div
+            class="current-swatch"
+            role="img"
+            :aria-label="$t('picker.current')"
+            :style="{ backgroundColor: store.colourSelected }"
+          >
+            <q-tooltip class="picker-tooltip">{{ $t("picker.current") }}</q-tooltip>
+          </div>
+          <q-btn
+            class="picker-action"
+            size="sm"
+            unelevated
+            dense
+            icon="content_copy"
+            :aria-label="$t('picker.copyHex')"
+            @click="copyColour(store.colourSelected)"
+          >
+            <q-tooltip class="picker-tooltip">{{ $t("picker.copyHex") }}</q-tooltip>
+          </q-btn>
+          <q-btn
+            class="picker-action"
+            size="sm"
+            unelevated
+            dense
+            icon="content_copy"
+            :aria-label="$t('picker.copyRgb')"
+            @click="copyCurrentColourRGB"
+          >
+            <q-tooltip class="picker-tooltip">{{ $t("picker.copyRgb") }}</q-tooltip>
+          </q-btn>
+        </div>
+
+        <div v-for="(colour, index) in recentColours" :key="index" class="recent-colour q-mt-sm">
+          <q-btn
+            class="saved-swatch full-width"
+            unelevated
+            :style="{ backgroundColor: colour.colour }"
+            :aria-label="$t('history.select')"
+            @click="store.colourSelected = colour.colour"
+          >
+            <q-tooltip class="picker-tooltip">{{ $t("history.select") }}</q-tooltip>
+          </q-btn>
+          <div class="colour-details">
+            <span>{{ colour.colour }}</span>
+            <span>{{ colour.name || $t("history.unnamed") }}</span>
+          </div>
+        </div>
+
+        <q-btn
+          class="picker-action q-mt-sm"
+          unelevated
+          icon="history"
+          :aria-label="$t('picker.openSaved')"
+          @click="showAllSavedColours = true"
+        >
+          <q-tooltip class="picker-tooltip">{{ $t("picker.openSaved") }}</q-tooltip>
+        </q-btn>
+      </div>
+    </div>
+
+    <q-dialog v-model="showAllSavedColours" aria-labelledby="history-title">
+      <q-card class="picker-dialog bg-black text-white">
+        <q-card-section class="picker-dialog-header">
+          <h2 id="history-title" class="picker-dialog-title">
+            {{ $t("history.title", { count: savedColours.length }) }}
+          </h2>
+          <q-btn
+            flat
+            round
+            icon="close"
+            :aria-label="$t('common.close')"
+            @click="showAllSavedColours = false"
+          />
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input
+            v-model="coloursFilterText"
+            dark
+            outlined
+            dense
+            color="grey-1"
+            :label="$t('history.filter')"
+          />
+
+          <div
+            v-for="{ colour, name, index } in filteredColours"
+            :key="index"
+            class="history-row q-mt-sm"
+          >
+            <div class="colour-details">
+              <span>{{ colour }}</span>
+              <span>{{ name || $t("history.unnamed") }}</span>
+            </div>
+            <div class="history-buttons">
               <q-btn
-                class="q-pr-sm"
+                class="picker-action"
                 unelevated
-                @click="store.colourSelected = colour.colour"
-                :style="`
-                background-color: ${colour.colour};
-                color: white;
-                text-shadow: 0px 0px 4px black;
-                text-transform: capitalize;
-                width: 30vw;
-                min-width: 120px;
-                border: 1px solid white`"
+                dense
+                size="sm"
+                icon="delete"
+                :aria-label="$t('history.delete', { colour })"
+                @click="deleteColourFromList(index)"
               >
-                <q-tooltip> Select Colour </q-tooltip>
+                <q-tooltip class="picker-tooltip">{{ $t("history.delete", { colour }) }}</q-tooltip>
+              </q-btn>
+              <q-btn
+                class="saved-swatch"
+                unelevated
+                v-close-popup
+                :style="{ backgroundColor: colour }"
+                :aria-label="$t('history.select')"
+                @click="store.colourSelected = colour"
+              />
+              <q-btn
+                class="picker-action"
+                unelevated
+                dense
+                size="sm"
+                icon="edit"
+                :aria-label="$t('history.renameColour', { colour })"
+              >
+                <q-tooltip class="picker-tooltip">{{
+                  $t("history.renameColour", { colour })
+                }}</q-tooltip>
+                <q-popup-proxy
+                  @before-show="currentRenameText = name || ''"
+                  @hide="renameColourFromList(index)"
+                >
+                  <q-banner class="bg-black rename-popup">
+                    <template #avatar>
+                      <q-btn
+                        class="picker-action q-my-xs"
+                        unelevated
+                        dense
+                        size="sm"
+                        icon="edit"
+                        v-close-popup
+                        :aria-label="$t('history.edit')"
+                      >
+                        <q-tooltip class="picker-tooltip">{{ $t("history.edit") }}</q-tooltip>
+                      </q-btn>
+                    </template>
+                    <q-input
+                      v-model="currentRenameText"
+                      dark
+                      outlined
+                      dense
+                      color="grey-1"
+                      :label="$t('history.rename')"
+                      @keypress.enter="renameColourFromList(index)"
+                    />
+                  </q-banner>
+                </q-popup-proxy>
               </q-btn>
             </div>
-            <div
-              class="row justify-around"
-              style="
-                white-space: nowrap;
-                overflow: hidden;
-                width: 30vw;
-                min-width: 120px;
-              "
-            >
-              <div class="col-sm-3 text-left">
-                <span class="text-caption text-grey-3 q-mr-sm"
-                  >{{ colour.colour }}
-                </span>
-              </div>
-              <div class="col text-right">
-                <span style="color: white; font-size: 0.6rem">
-                  {{ colour.name || "unNamed" }}
-                </span>
-              </div>
-            </div>
           </div>
-          <!-- --- -->
-          <div class="row q-mt-sm">
-            <q-btn
-              unelevated
-              icon="history"
-              @click="showAllSavedColours = true"
-              :style="`
-                background-color: rgb(46, 46, 46);
-                color: white;
-                text-transform: capitalize;
-                min-height: 20px;
-               `"
-            >
-              <q-tooltip> Open all saved colours. </q-tooltip>
-            </q-btn>
-          </div>
-          <!-- Dialog -->
-          <q-dialog v-model="showAllSavedColours">
-            <q-card class="q-pb-md q-px-md bg-black">
-              <div class="row items-center justify-around q-pt-sm">
-                <span class="text-white" style="user-select: none"
-                  >Saved Colours ({{ savedColours.length }})</span
-                >
-                <q-space />
-                <q-btn
-                  class="text-white"
-                  icon="close"
-                  dense
-                  unelevated
-                  @click="showAllSavedColours = false"
-                ></q-btn>
-              </div>
-              <div class="row items-center justify-around q-mb-md q-mt-md">
-                <q-input
-                  dark
-                  label="Filter"
-                  class="text-white"
-                  outlined
-                  dense
-                  v-model="coloursFilterText"
-                  color="grey-1"
-                ></q-input>
-              </div>
-              <!-- colours in dialog -->
-              <div
-                v-for="(colour, i) in savedColours
-                  .slice()
-                  .reverse()
-                  .filter(
-                    (val) =>
-                      val?.colour
-                        ?.toLowerCase()
-                        .includes(coloursFilterText.toLowerCase()) ||
-                      val?.name
-                        ?.toLowerCase()
-                        .includes(coloursFilterText.toLowerCase())
-                  )"
-                :key="i"
-              >
-                <!-- <div class="row q-mt-sm q-mx-xl">
-                  <span
-                    class="text-caption text-grey-3 q-mr-sm"
-                    style="overflow: hidden; text-overflow: ellipsis"
-                    >{{ colour.colour }}</span
-                  >
-                </div> -->
-                <div
-                  class="row q-mt-sm q-mx-xl justify-center"
-                  style="white-space: nowrap; overflow: hidden"
-                >
-                  <div class="col-sm-3 text-left">
-                    <span class="text-caption text-grey-3 q-mr-sm"
-                      >{{ colour.colour }}
-                    </span>
-                  </div>
-                  <div class="col text-right">
-                    <span style="color: white; font-size: 0.6rem">
-                      {{ colour.name || "unNamed" }}
-                    </span>
-                  </div>
-                </div>
-
-                <div class="row justify-center q-mx-xl">
-                  <q-btn
-                    class="q-mr-sm self-center text-grey-4"
-                    unelevated
-                    dense
-                    size="sm"
-                    icon="delete"
-                    style="background-color: rgb(54, 54, 54)"
-                    @click="deleteColourFromList(i)"
-                  >
-                    <q-tooltip>Delete {{ colour.colour }}</q-tooltip>
-                  </q-btn>
-                  <q-btn
-                    class="q-pr-sm"
-                    unelevated
-                    v-close-popup
-                    @click="store.colourSelected = colour.colour"
-                    :style="`
-                background-color: ${colour.colour};
-                color: white;
-                text-shadow: 0px 0px 4px black;
-                text-transform: capitalize;
-                width: 30vw;
-                min-width: 120px;
-                border: 1px solid white`"
-                  >
-                  </q-btn>
-                  <q-btn
-                    class="q-ml-sm self-center text-grey-4"
-                    unelevated
-                    dense
-                    size="sm"
-                    icon="edit"
-                    style="background-color: rgb(54, 54, 54)"
-                  >
-                    <q-tooltip>Rename {{ colour.colour }}</q-tooltip>
-                    <q-popup-proxy
-                      @before-show="currentRenameText = colour.name"
-                      @hide="renameColourFromList(i)"
-                    >
-                      <q-banner class="bg-black">
-                        <template v-slot:avatar>
-                          <q-btn
-                            class="text-white q-my-xs"
-                            unelevated
-                            dense
-                            size="sm"
-                            icon="edit"
-                            v-close-popup
-                            ><q-tooltip>Edit</q-tooltip></q-btn
-                          >
-                        </template>
-                        <q-input
-                          dark
-                          label="Rename"
-                          class="text-white"
-                          outlined
-                          dense
-                          @keypress.enter="renameColourFromList(i)"
-                          v-model="currentRenameText"
-                          color="grey-1"
-                        ></q-input>
-                      </q-banner>
-                    </q-popup-proxy>
-                  </q-btn>
-                </div>
-
-                <!-- <div class="row justify-center q-mx-xl">
-                  <q-btn
-                    style="
-                      min-height: 0px;
-                      width: 10vw;
-                      min-width: 40px;
-                      height: 6px;
-                      border-radius: 0px 0px 2px 0px;
-                      padding: 0;
-                      margin: 0;
-                      background-color: rgb(25, 138, 80);
-                    "
-                  >
-                    <q-tooltip>Rename {{ colour.colour }}</q-tooltip>
-                    <q-popup-proxy
-                      @before-show="currentRenameText = colour.name"
-                      @hide="renameColourFromList(i)"
-                    >
-                      <q-banner class="bg-black">
-                        <template v-slot:avatar>
-                          <q-btn
-                            class="text-white q-my-xs"
-                            unelevated
-                            dense
-                            size="sm"
-                            icon="edit"
-                            v-close-popup
-                            ><q-tooltip>Edit</q-tooltip></q-btn
-                          >
-                        </template>
-                        <q-input
-                          dark
-                          label="Rename"
-                          class="text-white"
-                          outlined
-                          dense
-                          @keypress.enter="renameColourFromList(i)"
-                          v-model="currentRenameText"
-                          color="grey-1"
-                        ></q-input>
-                      </q-banner>
-                    </q-popup-proxy>
-                  </q-btn>
-                </div> -->
-              </div>
-            </q-card>
-          </q-dialog>
-        </div>
-      </div>
-    </q-page>
-  </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </q-page>
 </template>
-
-<style>
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: #828282;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #424242;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #bcbcbc;
-}
-</style>
 
 <script>
 import { defineComponent } from "vue";
+import { LocalStorage, Notify, copyToClipboard, colors } from "quasar";
 import { useColourPicked } from "stores/colourPicked";
-import { useQuasar, copyToClipboard, colors } from "quasar";
 import TitleBar from "components/TitleBar.vue";
+
+const savedColoursKey = "savedColoursSelected";
 
 export default defineComponent({
   name: "IndexPage",
-  components: {
-    TitleBar,
-  },
+  components: { TitleBar },
   data() {
     return {
       inEyedropperMode: false,
+      eyeDropperAbort: null,
+      dismissNotification: null,
       store: useColourPicked(),
       savedColours: [],
       showAllSavedColours: false,
-      $q: useQuasar(),
       coloursFilterText: "",
       currentRenameText: "",
     };
   },
-  methods: {
-    copyCurrentColourHEX() {
-      copyToClipboard(this.store.colourSelected)
-        .then(() => {
-          // success!
-          this.$q.notify({
-            message: "Copied " + this.store.colourSelected,
-            color: "grey-10",
-            position: "top-left",
-          });
-        })
-        .catch((e) => {
-          this.$q.notify({ message: e.message });
-        });
+  computed: {
+    recentColours() {
+      return this.savedColours.slice(-4).reverse();
     },
-    copyCurrentColourRGB() {
-      const toRGB = colors.hexToRgb(this.store.colourSelected);
-      const rgbJoined = [toRGB.r, toRGB.g, toRGB.b].join();
-      copyToClipboard(rgbJoined)
-        .then(() => {
-          // success!
-          this.$q.notify({
-            message: "Copied " + rgbJoined,
-            color: "grey-10",
-            position: "top-left",
-          });
-        })
-        .catch((e) => {
-          this.$q.notify({ message: e.message });
-        });
-    },
-    getSavedColours() {
-      this.savedColours =
-        this.$q.localStorage.getItem("savedColoursSelected") || [];
-    },
-    saveColourSelectedToList(colour) {
-      // console.log(currSaved);
-      this.savedColours.push({ name: null, colour: colour });
-      if (this.savedColours.length > 1200) {
-        this.savedColours.splice(this.savedColours.length - 1, 1);
-      }
-      this.$q.localStorage.set("savedColoursSelected", this.savedColours);
-      this.getSavedColours();
-    },
-    renameColourFromList(index) {
-      let getData = this.$q.localStorage.getItem("savedColoursSelected");
-      if (getData) {
-        getData[this.savedColours.length - 1 - index].name =
-          this.currentRenameText;
-      }
-      this.$q.localStorage.set("savedColoursSelected", getData);
-      this.getSavedColours();
-    },
-    deleteColourFromList(index) {
-      console.log("Trying to call");
-      let getData = this.$q.localStorage.getItem("savedColoursSelected");
-      getData.splice(this.savedColours.length - 1 - index, 1); // because its in reverse
-      this.$q.localStorage.set("savedColoursSelected", getData);
-      this.getSavedColours();
-    },
-    openEyedropper() {
-      window._eyeDropper = new EyeDropper();
-      window._abortController = new AbortController();
-
-      window._eyeDropper
-        .open({ signal: window._abortController.signal })
-        .then((result) => {
-          this.store.newColour(result.sRGBHex);
-          window.electronAPI.manageColourPickerViewer(false);
-          this.saveColourSelectedToList(result.sRGBHex);
-          this.inEyedropperMode = false;
-        })
-        .catch((e) => {
-          console.log(e);
-          if(e) {
-            this.$q.notify({
-                message: e?.toString()
-              });
-              window.electronAPI.printLog(e.toString());
-            }
-          window.electronAPI.manageColourPickerViewer(false);
-          this.inEyedropperMode = false;
-        });
-    },
-    openEyedropperViewer() {
-      this.inEyedropperMode = true;
-      this.openEyedropper();
-      window.electronAPI.manageColourPickerViewer(true);
+    filteredColours() {
+      const query = this.coloursFilterText.toLowerCase();
+      return this.savedColours
+        .map((entry, index) => ({ ...entry, index }))
+        .reverse()
+        .filter(
+          ({ colour, name }) =>
+            colour?.toLowerCase().includes(query) || name?.toLowerCase().includes(query)
+        );
     },
   },
+  watch: {
+    "$i18n.locale"() {
+      this.dismissNotification?.();
+      this.dismissNotification = null;
+    },
+  },
+  methods: {
+    showNotification(key, named, options) {
+      this.dismissNotification?.();
+      this.dismissNotification = Notify.create({ message: this.$t(key, named ?? {}), ...options });
+    },
+    async copyColour(colour) {
+      try {
+        await copyToClipboard(colour);
+        this.showNotification(
+          "clipboard.copied",
+          { colour },
+          { color: "grey-10", position: "top-left" }
+        );
+      } catch {
+        this.showNotification("clipboard.failed");
+      }
+    },
+    copyCurrentColourRGB() {
+      const rgb = colors.hexToRgb(this.store.colourSelected);
+      return this.copyColour([rgb.r, rgb.g, rgb.b].join());
+    },
+    saveColours() {
+      LocalStorage.set(savedColoursKey, this.savedColours);
+    },
+    saveColourSelectedToList(colour) {
+      if (this.savedColours.length >= 1200) return;
+      this.savedColours.push({ name: null, colour });
+      this.saveColours();
+    },
+    renameColourFromList(index) {
+      const entry = this.savedColours[index];
+      if (!entry) return;
+      entry.name = this.currentRenameText;
+      this.saveColours();
+    },
+    deleteColourFromList(index) {
+      this.savedColours.splice(index, 1);
+      this.saveColours();
+    },
+    cancelEyedropper() {
+      this.eyeDropperAbort?.abort();
+    },
+    async openEyedropperViewer() {
+      if (typeof window.EyeDropper !== "function") {
+        this.showNotification("picker.unavailable");
+        return;
+      }
 
-  async mounted() {
-    this.getSavedColours();
-    window.addEventListener("keydown", (e) => {
-      window._abortController?.abort("picker closed");
-    });
-    // window.addEventListener("mov", (e) => {
-    //   console.log(e.screenY);
-    //   e.screenY < 10 ? changeAppState("maximise") : changeAppState("minimise");
-    // });
+      const controller = new AbortController();
+      this.eyeDropperAbort = controller;
+      this.inEyedropperMode = true;
+      try {
+        const pick = new window.EyeDropper().open({ signal: controller.signal });
+        window.electronAPI?.manageColourPickerViewer(true);
+        const { sRGBHex } = await pick;
+        this.store.newColour(sRGBHex);
+        this.saveColourSelectedToList(sRGBHex);
+      } catch (error) {
+        if (controller.signal.aborted || error?.name === "AbortError") {
+          this.showNotification("picker.cancelled");
+        } else {
+          window.electronAPI?.printLog(String(error));
+          this.showNotification("picker.failed");
+        }
+      } finally {
+        this.eyeDropperAbort = null;
+        window.electronAPI?.manageColourPickerViewer(false);
+        this.inEyedropperMode = false;
+      }
+    },
+  },
+  mounted() {
+    this.savedColours = LocalStorage.getItem(savedColoursKey) || [];
+    window.addEventListener("keydown", this.cancelEyedropper);
+  },
+  beforeUnmount() {
+    window.removeEventListener("keydown", this.cancelEyedropper);
+    this.cancelEyedropper();
   },
 });
 </script>
 
-<!--
-  (This not required yet)live colour viewer,
-  (This is not required yet)Use the same size window as was used last time.
-  (Done)make window sized to contents,
-  (Done)Can keep atleast 1200 colours (renamable, search by name, select on colour picker, delete from list)
-  (Done)Add save colour manually button on current selected colour,
-  (Done)Add the colour of the hex at top right faded on each bar when listing in dialog.
-  Custom icon creation
--->
+<style scoped>
+.picker-page {
+  background-color: rgb(24, 24, 24);
+}
+
+.picker-content {
+  display: grid;
+  grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.picker-colour-control {
+  width: 100%;
+  border: 2px solid rgb(125, 125, 125);
+}
+
+.picker-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.current-swatch {
+  width: 100px;
+  height: 2rem;
+  border: 1px solid white;
+  border-radius: 4px;
+}
+
+.recent-colour {
+  width: min(100%, max(120px, 30vw));
+}
+
+.colour-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.5rem;
+  color: #eee;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.colour-details span:last-child {
+  text-align: end;
+}
+
+.history-buttons {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.saved-swatch {
+  min-width: 0;
+  border: 1px solid white;
+}
+
+.rename-popup {
+  width: min(18rem, calc(100vw - 2rem));
+}
+
+@media (max-width: 430px) {
+  .picker-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .picker-colour-control {
+    max-width: 250px;
+  }
+}
+</style>

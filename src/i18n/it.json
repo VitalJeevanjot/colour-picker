@@ -1,0 +1,53 @@
+{
+  "languageName": "Italiano",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Seleziona e organizza i colori"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "language": "Lingua",
+    "systemDefault": "Predefinita di sistema"
+  },
+  "window": {
+    "minimise": "Riduci a icona",
+    "maximise": "Massimizza",
+    "restore": "Ripristina finestra",
+    "exit": "Esci"
+  },
+  "common": {
+    "close": "Chiudi"
+  },
+  "picker": {
+    "start": "Attiva il contagocce",
+    "help": "Attiva il contagocce ({pick} clic sinistro, {cancel} premi un tasto qualsiasi)",
+    "pick": "Seleziona:",
+    "cancel": "Annulla:",
+    "save": "Salva manualmente il colore del selettore.",
+    "current": "Colore corrente",
+    "copyHex": "Copia il valore HEX del colore corrente.",
+    "copyRgb": "Copia il valore RGB del colore corrente.",
+    "openSaved": "Apri tutti i colori salvati.",
+    "cancelled": "Selezione del colore annullata.",
+    "failed": "Impossibile selezionare un colore.",
+    "unavailable": "Il contagocce non è disponibile."
+  },
+  "history": {
+    "title": "Colori salvati ({count})",
+    "filter": "Filtra",
+    "unnamed": "Senza nome",
+    "select": "Seleziona colore",
+    "delete": "Elimina {colour}",
+    "renameColour": "Rinomina {colour}",
+    "rename": "Rinomina",
+    "edit": "Modifica"
+  },
+  "clipboard": {
+    "copied": "{colour} copiato",
+    "failed": "Impossibile copiare il colore."
+  },
+  "notFound": {
+    "title": "Ops. Qui non c’è niente...",
+    "goHome": "Torna alla schermata iniziale"
+  }
+}

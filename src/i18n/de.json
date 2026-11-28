@@ -1,0 +1,53 @@
+{
+  "languageName": "Deutsch",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Farben auswählen und verwalten"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "systemDefault": "Systemstandardsprache"
+  },
+  "window": {
+    "minimise": "Minimieren",
+    "maximise": "Maximieren",
+    "restore": "Fenster wiederherstellen",
+    "exit": "Beenden"
+  },
+  "common": {
+    "close": "Schließen"
+  },
+  "picker": {
+    "start": "Farbpipette starten",
+    "help": "Farbpipette starten ({pick} Linksklick, {cancel} beliebige Taste drücken)",
+    "pick": "Auswählen:",
+    "cancel": "Abbrechen:",
+    "save": "Farbe aus der Farbauswahl manuell speichern.",
+    "current": "Aktuelle Farbe",
+    "copyHex": "HEX-Wert der aktuellen Farbe kopieren.",
+    "copyRgb": "RGB-Wert der aktuellen Farbe kopieren.",
+    "openSaved": "Alle gespeicherten Farben öffnen.",
+    "cancelled": "Farbauswahl abgebrochen.",
+    "failed": "Die Farbe konnte nicht ausgewählt werden.",
+    "unavailable": "Die Farbpipette ist nicht verfügbar."
+  },
+  "history": {
+    "title": "Gespeicherte Farben ({count})",
+    "filter": "Filtern",
+    "unnamed": "Unbenannt",
+    "select": "Farbe auswählen",
+    "delete": "{colour} löschen",
+    "renameColour": "{colour} umbenennen",
+    "rename": "Umbenennen",
+    "edit": "Bearbeiten"
+  },
+  "clipboard": {
+    "copied": "{colour} kopiert",
+    "failed": "Die Farbe konnte nicht kopiert werden."
+  },
+  "notFound": {
+    "title": "Ups. Hier gibt es nichts …",
+    "goHome": "Zur Startseite"
+  }
+}

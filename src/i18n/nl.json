@@ -1,0 +1,53 @@
+{
+  "languageName": "Nederlands",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Kies en beheer kleuren"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "language": "Taal",
+    "systemDefault": "Systeemstandaard"
+  },
+  "window": {
+    "minimise": "Minimaliseren",
+    "maximise": "Maximaliseren",
+    "restore": "Venster herstellen",
+    "exit": "Afsluiten"
+  },
+  "common": {
+    "close": "Sluiten"
+  },
+  "picker": {
+    "start": "Pipet activeren",
+    "help": "Pipet activeren ({pick} linkermuisknop, {cancel} willekeurige toets)",
+    "pick": "Kiezen:",
+    "cancel": "Annuleren:",
+    "save": "De kleur uit de kleurkiezer handmatig opslaan.",
+    "current": "Huidige kleur",
+    "copyHex": "HEX-waarde van de huidige kleur kopiëren.",
+    "copyRgb": "RGB-waarde van de huidige kleur kopiëren.",
+    "openSaved": "Alle opgeslagen kleuren openen.",
+    "cancelled": "Kleurkeuze geannuleerd.",
+    "failed": "Kon geen kleur kiezen.",
+    "unavailable": "Het pipet is niet beschikbaar."
+  },
+  "history": {
+    "title": "Opgeslagen kleuren ({count})",
+    "filter": "Filteren",
+    "unnamed": "Naamloos",
+    "select": "Kleur kiezen",
+    "delete": "{colour} verwijderen",
+    "renameColour": "{colour} hernoemen",
+    "rename": "Hernoemen",
+    "edit": "Bewerken"
+  },
+  "clipboard": {
+    "copied": "{colour} gekopieerd",
+    "failed": "Kon de kleur niet kopiëren."
+  },
+  "notFound": {
+    "title": "Oeps. Hier is niets...",
+    "goHome": "Naar start"
+  }
+}

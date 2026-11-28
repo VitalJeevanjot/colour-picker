@@ -1,0 +1,53 @@
+{
+  "languageName": "Polski",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Wybieraj kolory i nimi zarządzaj"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language": "Język",
+    "systemDefault": "Domyślny język systemu"
+  },
+  "window": {
+    "minimise": "Minimalizuj",
+    "maximise": "Maksymalizuj",
+    "restore": "Przywróć okno",
+    "exit": "Zakończ"
+  },
+  "common": {
+    "close": "Zamknij"
+  },
+  "picker": {
+    "start": "Włącz próbnik kolorów",
+    "help": "Włącz próbnik kolorów ({pick} kliknij lewym przyciskiem, {cancel} naciśnij dowolny klawisz)",
+    "pick": "Wybierz:",
+    "cancel": "Anuluj:",
+    "save": "Zapisz ręcznie kolor z selektora.",
+    "current": "Bieżący kolor",
+    "copyHex": "Skopiuj wartość HEX bieżącego koloru.",
+    "copyRgb": "Skopiuj wartość RGB bieżącego koloru.",
+    "openSaved": "Otwórz wszystkie zapisane kolory.",
+    "cancelled": "Anulowano wybieranie koloru.",
+    "failed": "Nie udało się wybrać koloru.",
+    "unavailable": "Próbnik kolorów jest niedostępny."
+  },
+  "history": {
+    "title": "Zapisane kolory ({count})",
+    "filter": "Filtruj",
+    "unnamed": "Bez nazwy",
+    "select": "Wybierz kolor",
+    "delete": "Usuń {colour}",
+    "renameColour": "Zmień nazwę {colour}",
+    "rename": "Zmień nazwę",
+    "edit": "Edytuj"
+  },
+  "clipboard": {
+    "copied": "Skopiowano {colour}",
+    "failed": "Nie udało się skopiować koloru."
+  },
+  "notFound": {
+    "title": "Ups. Nic tu nie ma...",
+    "goHome": "Wróć do ekranu głównego"
+  }
+}
