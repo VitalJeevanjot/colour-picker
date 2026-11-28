@@ -1,0 +1,53 @@
+{
+  "languageName": "English",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Colour picker and manage"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "systemDefault": "System default"
+  },
+  "window": {
+    "minimise": "Minimise",
+    "maximise": "Maximise",
+    "restore": "Restore window",
+    "exit": "Exit"
+  },
+  "common": {
+    "close": "Close"
+  },
+  "picker": {
+    "start": "Start colour picker",
+    "help": "Start colour picker ({pick} Left Click, {cancel} Any Key Press)",
+    "pick": "Pick:",
+    "cancel": "Cancel:",
+    "save": "Save colour on colour selector manually.",
+    "current": "Current colour",
+    "copyHex": "Copy current colour hex.",
+    "copyRgb": "Copy current colour rgb.",
+    "openSaved": "Open all saved colours.",
+    "cancelled": "Colour picking cancelled.",
+    "failed": "Could not pick a colour.",
+    "unavailable": "The eyedropper is unavailable."
+  },
+  "history": {
+    "title": "Saved Colours ({count})",
+    "filter": "Filter",
+    "unnamed": "unNamed",
+    "select": "Select Colour",
+    "delete": "Delete {colour}",
+    "renameColour": "Rename {colour}",
+    "rename": "Rename",
+    "edit": "Edit"
+  },
+  "clipboard": {
+    "copied": "Copied {colour}",
+    "failed": "Could not copy the colour."
+  },
+  "notFound": {
+    "title": "Oops. Nothing here...",
+    "goHome": "Go Home"
+  }
+}

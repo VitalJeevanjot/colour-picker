@@ -1,0 +1,53 @@
+{
+  "languageName": "Português (Brasil)",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Selecione e organize cores"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "systemDefault": "Padrão do sistema"
+  },
+  "window": {
+    "minimise": "Minimizar",
+    "maximise": "Maximizar",
+    "restore": "Restaurar janela",
+    "exit": "Sair"
+  },
+  "common": {
+    "close": "Fechar"
+  },
+  "picker": {
+    "start": "Ativar o conta-gotas",
+    "help": "Ativar o conta-gotas ({pick} clique esquerdo, {cancel} qualquer tecla)",
+    "pick": "Selecionar:",
+    "cancel": "Cancelar:",
+    "save": "Salvar manualmente a cor do seletor.",
+    "current": "Cor atual",
+    "copyHex": "Copiar o valor HEX da cor atual.",
+    "copyRgb": "Copiar o valor RGB da cor atual.",
+    "openSaved": "Abrir todas as cores salvas.",
+    "cancelled": "Seleção de cor cancelada.",
+    "failed": "Não foi possível selecionar uma cor.",
+    "unavailable": "O conta-gotas não está disponível."
+  },
+  "history": {
+    "title": "Cores salvas ({count})",
+    "filter": "Filtrar",
+    "unnamed": "Sem nome",
+    "select": "Selecionar cor",
+    "delete": "Excluir {colour}",
+    "renameColour": "Renomear {colour}",
+    "rename": "Renomear",
+    "edit": "Editar"
+  },
+  "clipboard": {
+    "copied": "{colour} copiado",
+    "failed": "Não foi possível copiar a cor."
+  },
+  "notFound": {
+    "title": "Ops. Não há nada aqui...",
+    "goHome": "Voltar ao início"
+  }
+}

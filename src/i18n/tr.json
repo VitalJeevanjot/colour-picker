@@ -1,0 +1,53 @@
+{
+  "languageName": "Türkçe",
+  "app": {
+    "title": "Colour Picker",
+    "description": "Renkleri seçin ve düzenleyin"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "language": "Dil",
+    "systemDefault": "Sistem varsayılanı"
+  },
+  "window": {
+    "minimise": "Simge durumuna küçült",
+    "maximise": "Ekranı kapla",
+    "restore": "Önceki pencere boyutuna dön",
+    "exit": "Çıkış"
+  },
+  "common": {
+    "close": "Kapat"
+  },
+  "picker": {
+    "start": "Damlalığı başlat",
+    "help": "Damlalığı başlat ({pick} sol tıklayın, {cancel} herhangi bir tuşa basın)",
+    "pick": "Seç:",
+    "cancel": "İptal:",
+    "save": "Seçicideki rengi elle kaydedin.",
+    "current": "Geçerli renk",
+    "copyHex": "Geçerli rengin HEX değerini kopyalayın.",
+    "copyRgb": "Geçerli rengin RGB değerini kopyalayın.",
+    "openSaved": "Tüm kayıtlı renkleri açın.",
+    "cancelled": "Renk seçimi iptal edildi.",
+    "failed": "Renk seçilemedi.",
+    "unavailable": "Damlalık kullanılamıyor."
+  },
+  "history": {
+    "title": "Kayıtlı renkler ({count})",
+    "filter": "Filtrele",
+    "unnamed": "Adsız",
+    "select": "Renk seç",
+    "delete": "{colour} rengini sil",
+    "renameColour": "{colour} rengini yeniden adlandır",
+    "rename": "Yeniden adlandır",
+    "edit": "Düzenle"
+  },
+  "clipboard": {
+    "copied": "{colour} kopyalandı",
+    "failed": "Renk kopyalanamadı."
+  },
+  "notFound": {
+    "title": "Burada hiçbir şey yok...",
+    "goHome": "Ana sayfaya dön"
+  }
+}
